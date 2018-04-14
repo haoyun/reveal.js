@@ -36,8 +36,8 @@ module.exports = function(grunt) {
 
 		sass: {
 			core: {
-				src: 'css/reveal.scss',
-				dest: 'css/reveal.css'
+				src: 'css/math.reveal.scss',
+				dest: 'css/math.reveal.css'
 			},
 			themes: {
 				expand: true,
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
 
 		autoprefixer: {
 			core: {
-				src: 'css/reveal.css'
+				src: 'css/math.reveal.css'
 			}
 		},
 
@@ -59,8 +59,8 @@ module.exports = function(grunt) {
 				compatibility: 'ie9'
 			},
 			compress: {
-				src: 'css/reveal.css',
-				dest: 'css/reveal.min.css'
+				src: 'css/math.reveal.css',
+				dest: 'css/math.reveal.min.css'
 			}
 		},
 
@@ -132,7 +132,7 @@ module.exports = function(grunt) {
 				tasks: 'css-themes'
 			},
 			css: {
-				files: [ 'css/reveal.scss' ],
+				files: [ 'css/reveal.scss', 'css/math.reveal.scss' ],
 				tasks: 'css-core'
 			},
 			html: {
@@ -143,14 +143,24 @@ module.exports = function(grunt) {
 			},
 			options: {
 				livereload: true
-			}
+			},
+            
+            pandoc: {
+                files: ['math.reveal/*.md', 'math.reveal/*.markdown', 'math.reveal/revealpandoc.html'],
+                tasks: ['exec:pandoc'],
+            },
 		},
 
 		retire: {
 			js: [ 'js/reveal.js', 'lib/js/*.js', 'plugin/**/*.js' ],
 			node: [ '.' ]
-		}
-
+		},
+        
+        exec: {
+            pandoc: {
+                cmd: "cd math.reveal && pandoc -s --mathjax -i -t revealjs --template=revealpandoc.html -V revealjs-url=.. -V theme=math-reveal -V center=false -V slideNumber='c/t' index.md -o default.html && cd .."
+            }
+        },
 	});
 
 	// Dependencies
@@ -164,9 +174,14 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-retire' );
 	grunt.loadNpmTasks( 'grunt-sass' );
 	grunt.loadNpmTasks( 'grunt-zip' );
-	
+    grunt.loadNpmTasks( 'grunt-exec' );
+    
+
+    // Default task
+	grunt.registerTask( 'pandoc', [ 'exec:pandoc' ] );
+    
 	// Default task
-	grunt.registerTask( 'default', [ 'css', 'js' ] );
+	grunt.registerTask( 'default', [ 'css', 'js', 'css-themes', 'pandoc' ] );
 
 	// JS task
 	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'qunit' ] );

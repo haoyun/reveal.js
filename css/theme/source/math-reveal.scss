@@ -1,0 +1,175 @@
+/**
+ * A simple theme for reveal.js presentations, similar
+ * to the default theme. The accent color is darkblue.
+ *
+ * This theme is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
+ * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+ 
+//---------------------------------------------------------------
+//    Table of Contents
+// 
+// 1. Default mixins and settings (revealjs defult)
+// 2. Include theme-specific fonts (revealjs defult)
+// 3. Solarized-colors
+// 4. More Variables
+// 5. Override theme settings (revealjs defult)
+// 6. Theme template
+// 7. Customizations
+//---------------------------------------------------------------
+
+ 
+
+// 1. Default mixins and settings
+// ------------------------------
+
+@import "../template/mixins";
+@import "../template/settings";
+
+// 2. Include theme-specific fonts
+// -------------------------------
+
+//@import url(https://fonts.googleapis.com/css?family=News+Cycle:400,700);
+//@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext');
+
+
+
+
+// 3. Solarized colors
+// -------------------
+
+$solarized-base03:    #002b36;
+$solarized-base02:    #073642;
+$solarized-base01:    #586e75;
+$solarized-base00:    #657b83;
+$solarized-base0:     #839496;
+$solarized-base1:     #93a1a1;
+$solarized-base2:     #eee8d5;
+$solarized-base3:     #fdf6e3;
+$solarized-yellow:    #b58900;
+$solarized-orange:    #cb4b16;
+$solarized-red:       #dc322f;
+$solarized-magenta:   #d33682;
+$solarized-violet:    #6c71c4;
+$solarized-blue:      #268bd2;
+$solarized-cyan:      #2aa198;
+$solarized-green:     #859900;
+
+// 4. More Variables
+// -----------------
+
+// 5. Override theme settings
+//    (see ../template/settings.scss)
+// ----------------------------------
+
+$mainFontSize: 24px;
+$mainFont: 'Roboto', sans-serif;
+$mainColor: #000;
+
+$headingFont: 'Roboto', Impact, sans-serif;
+$headingColor: $solarized-red;
+$headingTextShadow: none;
+$headingTextTransform: none;
+$headingMargin: 0 0 0 0;
+$heading1Size: 1.5em;
+$heading2Size: 1.3em;
+$heading3Size: 1.1em;
+$heading4Size: 1.00em;
+
+$backgroundColor: #fff;
+$linkColor: #00008B;
+$linkColorHover: lighten( $linkColor, 20% );
+$selectionBackgroundColor: rgba(0, 0, 0, 0.99);
+
+section.has-dark-background {
+	&, h1, h2, h3, h4, h5, h6 {
+		color: #fff;
+	}
+}
+
+
+// 6. Theme template
+// -----------------
+
+@import "../template/theme";
+
+
+// 7. Customizations
+// -----------------
+
+.reveal .slides>section,
+.reveal .slides>section>section {
+    min-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center;
+    position: absolute !important;
+    top: 0 !important;
+    border: 2px solid blue;
+}
+
+.reveal .slides>section>*,
+.reveal .slides>section>section>* {
+    padding: $blockMargin;
+}
+
+
+//---------------------------------------------------------------
+// does not work, will be override by pdf.css,
+// which is loaded by javascript.
+// have to put this at the end of the document,
+// but slides does not show very well.
+//---------------------------------------------------------------
+
+.print-pdf .reveal .slides>.pdf-page>section,
+.print-pdf .reveal .slides>.pdf-page>section>section{
+    min-height: 770px !important;
+    position: relative !important;
+}
+//---------------------------------------------------------------
+
+.reveal h1 {
+    position: absolute !important;
+    top: 0 !important;
+    width: calc(100% - #{$blockMargin} * 2);
+    height: #{$headingLineHeight}em;
+    overflow: hidden;
+}
+
+
+%thm-env {
+    border: none;
+    border-radius: 15px;
+    background-color: #f3eaea;
+    
+    margin-left: 2*$blockMargin;
+    margin-right: 2*$blockMargin;
+}
+
+%thm-env-header {
+    margin: -10px;
+    margin-bottom: 20px;
+    padding: 5px;
+    padding-left: 10px;
+    font-variant: normal;
+    
+    color: white;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    
+    box-shadow: 0px 4px 4px 0px #555;
+    background-color: blue;
+    background: -moz-linear-gradient(left, #00c, black);
+    background: -webkit-linear-gradient(left, #00c, black);
+}
+
+.theorem,
+.corollary {
+    @extend %thm-env;
+}
+
+.theorem h4,
+.corollary h4 {
+    @extend %thm-env-header;
+}

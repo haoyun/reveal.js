@@ -1,0 +1,1 @@
+ pandoc -s --mathjax -i -t revealjs --template=revealpandoc.html -V revealjs-url=.. -V theme=math-reveal -V center=false index.md -o default.html
